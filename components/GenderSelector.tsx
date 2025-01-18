@@ -1,37 +1,35 @@
+// components/GenderSelector.tsx
 import React from 'react';
 import { View, Pressable, StyleSheet, useColorScheme } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Colors } from '../constants/Colors';
-import SectionRow from './SectionRow';
+import * as Haptics from 'expo-haptics';
+import { Colors } from '@/constants/Colors';
+import { useAppStore } from '@/store/appStore';
+import SectionRow from '@/components/SectionRow';
 
-interface GenderSelectorProps {
-  selectedGender: string | null;
-  onSelectMale: () => void;
-  onSelectFemale: () => void;
-}
-
-/**
- * A section row to choose between male or female gender.
- */
-const GenderSelector: React.FC<GenderSelectorProps> = ({
-  selectedGender,
-  onSelectMale,
-  onSelectFemale,
-}) => {
+const GenderSelector: React.FC = () => {
   const colorScheme = useColorScheme() || 'light';
   const theme = Colors[colorScheme];
+
+  const selectedGender = useAppStore((state) => state.selectedGender);
+  const setSelectedGender = useAppStore((state) => state.setSelectedGender);
+
+  const handlePressGender = async (gender: 'male' | 'female') => {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    setSelectedGender(gender);
+  };
 
   return (
     <SectionRow iconName="person-circle" title="Gender">
       <View style={styles.iconsContainer}>
-        <Pressable onPress={onSelectMale} style={styles.iconWrapper}>
+        <Pressable onPress={() => handlePressGender('male')} style={styles.iconWrapper}>
           <Ionicons
             name="male"
             size={25}
             color={selectedGender === 'male' ? theme.systemTeal : theme.label}
           />
         </Pressable>
-        <Pressable onPress={onSelectFemale} style={styles.iconWrapper}>
+        <Pressable onPress={() => handlePressGender('female')} style={styles.iconWrapper}>
           <Ionicons
             name="female"
             size={25}

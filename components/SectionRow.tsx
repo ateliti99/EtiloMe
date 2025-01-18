@@ -1,37 +1,24 @@
+// components/SectionRow.tsx
 import React, { ReactNode } from 'react';
 import { View, Text, StyleSheet, useColorScheme } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Colors } from '../constants/Colors';
+import { Colors } from '@/constants/Colors';
 
 interface SectionRowProps {
   iconName: keyof typeof Ionicons.glyphMap;
   title: string;
-  children?: ReactNode; // to display optional content on the right side
+  children?: ReactNode;
 }
 
-/**
- * A reusable layout component for a single row:
- *  - Left icon (with a themed background)
- *  - Title text
- *  - Optional right content (passed as children)
- */
-const SectionRow: React.FC<SectionRowProps> = ({
-  iconName,
-  title,
-  children,
-}) => {
-  // Get the theme and dynamic colors
+const SectionRow: React.FC<SectionRowProps> = ({ iconName, title, children }) => {
   const colorScheme = useColorScheme() || 'light';
   const theme = Colors[colorScheme];
 
   return (
     <View style={styles.section}>
-      {/* Icon container */}
-      <View style={[styles.iconContainer, { backgroundColor: theme.tertiarySystemBackground } ]}>
+      <View style={[styles.iconContainer, { backgroundColor: theme.systemGray4 }]}>
         <Ionicons name={iconName} size={20} color="#fff" />
       </View>
-
-      {/* Middle text + optional right content */}
       <View style={styles.contentContainer}>
         <Text style={[styles.text, { color: theme.label }]}>{title}</Text>
         {children}
@@ -46,7 +33,7 @@ const styles = StyleSheet.create({
   section: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 5,
+    marginVertical: 10,
   },
   iconContainer: {
     width: 35,
@@ -64,5 +51,6 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 18,
+    textAlign: 'left',
   },
 });

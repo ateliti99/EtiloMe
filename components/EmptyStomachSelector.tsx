@@ -1,45 +1,39 @@
+// components/EmptyStomachSelector.tsx
 import React from 'react';
 import { View, Pressable, StyleSheet, useColorScheme } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Colors } from '../constants/Colors';
-import SectionRow from './SectionRow';
+import * as Haptics from 'expo-haptics';
+import { Colors } from '@/constants/Colors';
+import { useAppStore } from '@/store/appStore';
+import SectionRow from '@/components/SectionRow';
 
-interface EmptyStomachSelectorProps {
-  emptyStomach: boolean | null;
-  onSelectYes: () => void;
-  onSelectNo: () => void;
-}
-
-/**
- * A section row to choose if the user is on an empty stomach.
- */
-const EmptyStomachSelector: React.FC<EmptyStomachSelectorProps> = ({
-  emptyStomach,
-  onSelectYes,
-  onSelectNo,
-}) => {
+const EmptyStomachSelector: React.FC = () => {
   const colorScheme = useColorScheme() || 'light';
   const theme = Colors[colorScheme];
+
+  const emptyStomach = useAppStore((state) => state.emptyStomach);
+  const setEmptyStomach = useAppStore((state) => state.setEmptyStomach);
+
+  const handlePress = async (isEmpty: boolean) => {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    setEmptyStomach(isEmpty);
+  };
 
   return (
     <SectionRow iconName="nutrition" title="Empty stomach?">
       <View style={styles.iconsContainer}>
-        <Pressable onPress={onSelectYes} style={styles.iconWrapper}>
+        <Pressable onPress={() => handlePress(true)} style={styles.iconWrapper}>
           <Ionicons
             name="checkmark-circle"
             size={25}
-            color={
-              emptyStomach === true ? theme.systemTeal : theme.label
-            }
+            color={emptyStomach === true ? theme.systemTeal : theme.label}
           />
         </Pressable>
-        <Pressable onPress={onSelectNo} style={styles.iconWrapper}>
+        <Pressable onPress={() => handlePress(false)} style={styles.iconWrapper}>
           <Ionicons
             name="close-circle"
             size={25}
-            color={
-              emptyStomach === false ? theme.systemPink : theme.label
-            }
+            color={emptyStomach === false ? theme.systemPink : theme.label}
           />
         </Pressable>
       </View>

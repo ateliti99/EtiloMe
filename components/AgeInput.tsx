@@ -1,32 +1,32 @@
+// components/AgeInput.tsx
 import React from 'react';
 import { StyleSheet, TextInput, useColorScheme } from 'react-native';
-import { Colors } from '../constants/Colors';
-import SectionRow from './SectionRow';
+import * as Haptics from 'expo-haptics';
+import { Colors } from '@/constants/Colors';
+import { useAppStore } from '@/store/appStore';
+import SectionRow from '@/components/SectionRow';
 
-interface AgeInputProps {
-  age: string;
-  onChangeAge: (newAge: string) => void;
-}
-
-/**
- * A section row to input the user's age.
- */
-const AgeInput: React.FC<AgeInputProps> = ({ age, onChangeAge }) => {
+const AgeInput: React.FC = () => {
   const colorScheme = useColorScheme() || 'light';
   const theme = Colors[colorScheme];
+
+  const age = useAppStore((state) => state.age);
+  const setAge = useAppStore((state) => state.setAge);
+
+  const handleAgeChange = async (value: string) => {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    setAge(value);
+  };
 
   return (
     <SectionRow iconName="calendar" title="Age">
       <TextInput
-        style={[
-          styles.inputSmall,
-          { color: theme.label, borderColor: theme.systemGray2 },
-        ]}
+        style={[styles.inputSmall, { color: theme.label, borderColor: theme.systemGray2 }]}
         keyboardType="numeric"
         placeholder="+18"
         placeholderTextColor={theme.systemGray2}
         value={age}
-        onChangeText={onChangeAge}
+        onChangeText={handleAgeChange}
       />
     </SectionRow>
   );

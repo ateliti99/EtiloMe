@@ -1,35 +1,32 @@
+// components/WeightInput.tsx
 import React from 'react';
 import { StyleSheet, TextInput, useColorScheme } from 'react-native';
-import { Colors } from '../constants/Colors';
-import SectionRow from './SectionRow';
+import * as Haptics from 'expo-haptics';
+import { Colors } from '@/constants/Colors';
+import { useAppStore } from '@/store/appStore';
+import SectionRow from '@/components/SectionRow';
 
-interface WeightInputProps {
-  weight: string;
-  onChangeWeight: (newWeight: string) => void;
-}
-
-/**
- * A section row to input the user's weight.
- */
-const WeightInput: React.FC<WeightInputProps> = ({
-  weight,
-  onChangeWeight,
-}) => {
+const WeightInput: React.FC = () => {
   const colorScheme = useColorScheme() || 'light';
   const theme = Colors[colorScheme];
+
+  const weight = useAppStore((state) => state.weight);
+  const setWeight = useAppStore((state) => state.setWeight);
+
+  const handleWeightChange = async (val: string) => {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    setWeight(val);
+  };
 
   return (
     <SectionRow iconName="fitness" title="Weight">
       <TextInput
-        style={[
-          styles.inputSmall,
-          { color: theme.label, borderColor: theme.systemGray2 },
-        ]}
+        style={[styles.inputSmall, { color: theme.label, borderColor: theme.systemGray2 }]}
         keyboardType="numeric"
         placeholder="80 kg"
         placeholderTextColor={theme.systemGray2}
         value={weight}
-        onChangeText={onChangeWeight}
+        onChangeText={handleWeightChange}
       />
     </SectionRow>
   );

@@ -1,51 +1,54 @@
+// components/AddDrinkModal.tsx
 import React from 'react';
 import { View, Text, TextInput, Pressable, StyleSheet, useColorScheme } from 'react-native';
 import Modal from 'react-native-modal';
-import { Colors } from '../constants/Colors';
+import * as Haptics from 'expo-haptics';
+import { Colors } from '@/constants/Colors';
+import { useAppStore } from '@/store/appStore';
 
-interface AddDrinkModalProps {
-  isVisible: boolean;
-  onClose: () => void;
-  onSave: () => void;
-
-  // Controlled inputs for the new drink
-  drinkQuantity: string;
-  setDrinkQuantity: (val: string) => void;
-  alcoholPercentage: string;
-  setAlcoholPercentage: (val: string) => void;
-  timeAgo: string;
-  setTimeAgo: (val: string) => void;
-}
-
-/**
- * A sliding-up modal to add a new drink, with text inputs and action buttons.
- */
-const AddDrinkModal: React.FC<AddDrinkModalProps> = ({
-  isVisible,
-  onClose,
-  onSave,
-  drinkQuantity,
-  setDrinkQuantity,
-  alcoholPercentage,
-  setAlcoholPercentage,
-  timeAgo,
-  setTimeAgo,
-}) => {
+const AddDrinkModal: React.FC = () => {
   const colorScheme = useColorScheme() || 'light';
   const theme = Colors[colorScheme];
 
+  // Zustand states
+  const isModalVisible = useAppStore((state) => state.isModalVisible);
+  const setModalVisible = useAppStore((state) => state.setModalVisible);
+
+  const {
+    newDrinkQuantity,
+    setNewDrinkQuantity,
+    newAlcoholPercentage,
+    setNewAlcoholPercentage,
+    newTimeAgo,
+    setNewTimeAgo,
+  } = useAppStore();
+
+  const addDrink = useAppStore((state) => state.addDrink);
+
+  const handleClose = async () => {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    setModalVisible(false);
+    setNewDrinkQuantity('');
+    setNewAlcoholPercentage('');
+    setNewTimeAgo('');
+  };
+
+  const handleSaveDrink = async () => {
+    if (newDrinkQuantity && newAlcoholPercentage && newTimeAgo) {
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      addDrink(newDrinkQuantity, newAlcoholPercentage, newTimeAgo);
+    }
+    handleClose();
+  };
+
   return (
     <Modal
-      isVisible={isVisible}
-      onBackdropPress={onClose}
-      onBackButtonPress={onClose}
+      isVisible={isModalVisible}
+      onBackdropPress={handleClose}
+      onBackButtonPress={handleClose}
       style={styles.modal}
       animationIn="slideInUp"
       animationOut="slideOutDown"
-      animationInTiming={500}
-      animationOutTiming={500}
-      backdropTransitionInTiming={500}
-      backdropTransitionOutTiming={500}
       avoidKeyboard
     >
       <View style={[styles.modalContent, { backgroundColor: theme.systemGray6 }]}>
@@ -56,8 +59,8 @@ const AddDrinkModal: React.FC<AddDrinkModalProps> = ({
           placeholder="Quantity (ml)"
           placeholderTextColor={theme.systemGray3}
           keyboardType="numeric"
-          value={drinkQuantity}
-          onChangeText={setDrinkQuantity}
+          value={newDrinkQuantity}
+          onChangeText={setNewDrinkQuantity}
         />
 
         <TextInput
@@ -65,8 +68,8 @@ const AddDrinkModal: React.FC<AddDrinkModalProps> = ({
           placeholder="Alcohol %"
           placeholderTextColor={theme.systemGray3}
           keyboardType="numeric"
-          value={alcoholPercentage}
-          onChangeText={setAlcoholPercentage}
+          value={newAlcoholPercentage}
+          onChangeText={setNewAlcoholPercentage}
         />
 
         <TextInput
@@ -74,16 +77,15 @@ const AddDrinkModal: React.FC<AddDrinkModalProps> = ({
           placeholder="Time ago (minutes)"
           placeholderTextColor={theme.systemGray3}
           keyboardType="numeric"
-          value={timeAgo}
-          onChangeText={setTimeAgo}
+          value={newTimeAgo}
+          onChangeText={setNewTimeAgo}
         />
 
-        {/* Action buttons */}
         <View style={styles.modalButtons}>
-          <Pressable onPress={onClose} style={styles.button}>
+          <Pressable onPress={handleClose} style={styles.button}>
             <Text style={[styles.buttonText, { color: theme.systemRed }]}>Cancel</Text>
           </Pressable>
-          <Pressable onPress={onSave} style={styles.button}>
+          <Pressable onPress={handleSaveDrink} style={styles.button}>
             <Text style={[styles.buttonText, { color: theme.systemGreen }]}>Save</Text>
           </Pressable>
         </View>

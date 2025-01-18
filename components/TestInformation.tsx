@@ -1,194 +1,58 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   ScrollView,
   StyleSheet,
   View,
-  Pressable,
-  Text,
   KeyboardAvoidingView,
   Platform,
+  useColorScheme,
 } from 'react-native';
-import { useColorScheme } from 'react-native';
-import * as Haptics from 'expo-haptics';
-import { Colors } from '../constants/Colors';
+import { Colors } from '@/constants/Colors';
 
 // Child components
-import GenderSelector from './GenderSelector';
-import AgeInput from './AgeInput';
-import WeightInput from './WeightInput';
-import EmptyStomachSelector from './EmptyStomachSelector';
-import DrinksSection from './DrinksSection';
-import AddDrinkModal from './AddDrinkModal';
+import GenderSelector from '@/components/GenderSelector';
+import AgeInput from '@/components/AgeInput';
+import WeightInput from '@/components/WeightInput';
+import EmptyStomachSelector from '@/components/EmptyStomachSelector';
+import DrinksSection from '@/components/DrinksSection';
+import AddDrinkModal from '@/components/AddDrinkModal';
 
-/**
- * Collect user info: gender, age, weight, empty stomach,
- * manage a list of drinks, and "calculate" results (BAC, etc.).
- */
 export default function TestInformation() {
   const colorScheme = useColorScheme() || 'light';
   const theme = Colors[colorScheme];
 
-  // Gender, age, weight, empty stomach
-  const [selectedGender, setSelectedGender] = useState<string | null>(null);
-  const [age, setAge] = useState<string>('');
-  const [weight, setWeight] = useState<string>('');
-  const [emptyStomach, setEmptyStomach] = useState<boolean | null>(null);
-
-  // Drinks management
-  const [drinks, setDrinks] = useState<Array<{
-    quantity: string;
-    percentage: string;
-    time: string;
-  }>>([]);
-
-  // Modal state
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [drinkQuantity, setDrinkQuantity] = useState('');
-  const [alcoholPercentage, setAlcoholPercentage] = useState('');
-  const [timeAgo, setTimeAgo] = useState('');
-
-  /**
-   * Utility to trigger a specific style of haptic feedback.
-   */
-  const triggerHapticFeedback = async (style: Haptics.ImpactFeedbackStyle) => {
-    await Haptics.impactAsync(style);
-  };
-
-  /**
-   * Handlers for gender selection.
-   */
-  const handleMalePress = () => {
-    triggerHapticFeedback(Haptics.ImpactFeedbackStyle.Medium);
-    setSelectedGender('male');
-  };
-  const handleFemalePress = () => {
-    triggerHapticFeedback(Haptics.ImpactFeedbackStyle.Medium);
-    setSelectedGender('female');
-  };
-
-  /**
-   * Handlers for empty stomach selection.
-   */
-  const handleYesPress = () => {
-    triggerHapticFeedback(Haptics.ImpactFeedbackStyle.Medium);
-    setEmptyStomach(true);
-  };
-  const handleNoPress = () => {
-    triggerHapticFeedback(Haptics.ImpactFeedbackStyle.Medium);
-    setEmptyStomach(false);
-  };
-
-  /**
-   * Modal controls for adding a drink.
-   */
-  const handleOpenModal = () => {
-    triggerHapticFeedback(Haptics.ImpactFeedbackStyle.Medium);
-    setModalVisible(true);
-  };
-  const handleCloseModal = () => {
-    setModalVisible(false);
-    setDrinkQuantity('');
-    setAlcoholPercentage('');
-    setTimeAgo('');
-  };
-
-  const handleSaveDrink = () => {
-    if (drinkQuantity && alcoholPercentage && timeAgo) {
-      setDrinks((prevDrinks) => [
-        ...prevDrinks,
-        { quantity: drinkQuantity, percentage: alcoholPercentage, time: timeAgo },
-      ]);
-    }
-    handleCloseModal();
-  };
-
-  const handleRemoveDrink = (index: number) => {
-    setDrinks((prevDrinks) => prevDrinks.filter((_, i) => i !== index));
-  };
-
-  /**
-   * Final "Calculate" logic (BAC or similar).
-   */
-  const handleCalculate = () => {
-    triggerHapticFeedback(Haptics.ImpactFeedbackStyle.Heavy);
-    // TODO: implement calculation logic
-  };
-
   return (
-    <ScrollView style={[styles.parentContainer, { backgroundColor: theme.systemGray6 }]}>
+    <ScrollView style={[styles.parentContainer, { backgroundColor: theme.systemGray5 }]}>
       <KeyboardAvoidingView
         style={{ width: '100%' }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
       >
-        {/* Gender Selector */}
-        <GenderSelector
-          selectedGender={selectedGender}
-          onSelectMale={handleMalePress}
-          onSelectFemale={handleFemalePress}
-        />
-
+        {/* Gender */}
+        <GenderSelector />
         <View style={[styles.separator, { backgroundColor: theme.systemGray3 }]} />
 
-        {/* Age Input */}
-        <AgeInput
-          age={age}
-          onChangeAge={(val) => {
-            triggerHapticFeedback(Haptics.ImpactFeedbackStyle.Medium);
-            setAge(val);
-          }}
-        />
-
+        {/* Age */}
+        <AgeInput />
         <View style={[styles.separator, { backgroundColor: theme.systemGray3 }]} />
 
-        {/* Weight Input */}
-        <WeightInput
-          weight={weight}
-          onChangeWeight={(val) => {
-            triggerHapticFeedback(Haptics.ImpactFeedbackStyle.Medium);
-            setWeight(val);
-          }}
-        />
-
+        {/* Weight */}
+        <WeightInput />
         <View style={[styles.separator, { backgroundColor: theme.systemGray3 }]} />
 
-        {/* Empty Stomach Selector */}
-        <EmptyStomachSelector
-          emptyStomach={emptyStomach}
-          onSelectYes={handleYesPress}
-          onSelectNo={handleNoPress}
-        />
-
+        {/* Empty Stomach */}
+        <EmptyStomachSelector />
         <View style={[styles.separator, { backgroundColor: theme.systemGray3 }]} />
 
-        {/* Drinks Section (Add + List) */}
-        <DrinksSection
-          drinks={drinks}
-          onAddDrink={handleOpenModal}
-          onRemoveDrink={handleRemoveDrink}
-        />
+        {/* Drinks Section */}
+        <DrinksSection />
 
-        {/* Add Drink Modal */}
-        <AddDrinkModal
-          isVisible={isModalVisible}
-          onClose={handleCloseModal}
-          onSave={handleSaveDrink}
-          drinkQuantity={drinkQuantity}
-          setDrinkQuantity={setDrinkQuantity}
-          alcoholPercentage={alcoholPercentage}
-          setAlcoholPercentage={setAlcoholPercentage}
-          timeAgo={timeAgo}
-          setTimeAgo={setTimeAgo}
-        />
+        {/**
+         * The AddDrinkModal is rendered here
+         * but only visible if isModalVisible === true in the store
+         */}
+        <AddDrinkModal />
       </KeyboardAvoidingView>
-
-      {/* Calculate Button */}
-      <Pressable
-        style={[styles.calculateButton, { backgroundColor: theme.systemBlue }]}
-        onPress={handleCalculate}
-      >
-        <Text style={styles.calculateButtonText}>Calculate</Text>
-      </Pressable>
     </ScrollView>
   );
 }
@@ -205,17 +69,5 @@ const styles = StyleSheet.create({
     height: 1,
     width: '100%',
     marginVertical: 5,
-  },
-  calculateButton: {
-    paddingVertical: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginVertical: 20,
-    marginHorizontal: 10,
-  },
-  calculateButtonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
   },
 });
