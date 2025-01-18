@@ -1,4 +1,3 @@
-// store/appStore.ts
 import { create } from 'zustand';
 
 interface Drink {
@@ -35,6 +34,23 @@ interface AppState {
   setNewAlcoholPercentage: (val: string) => void;
   newTimeAgo: string;
   setNewTimeAgo: (val: string) => void;
+
+  // Calculation Result Modal
+  calcModalVisible: boolean;
+  setCalcModalVisible: (val: boolean) => void;
+
+  // The final BAC result string (e.g., "0.056 g/L")
+  calcResult: string | null;
+  setCalcResult: (val: string | null) => void;
+
+  // Liters
+  liters: number;
+  incrementLiters: (amount: number) => void;
+  setLiters: (val: number) => void;
+
+  // Modal states for editing liters
+  litersModalVisible: boolean;
+  setLitersModalVisible: (val: boolean) => void;
 }
 
 export const useAppStore = create<AppState>((set) => ({
@@ -71,4 +87,21 @@ export const useAppStore = create<AppState>((set) => ({
   setNewAlcoholPercentage: (val) => set({ newAlcoholPercentage: val }),
   newTimeAgo: '',
   setNewTimeAgo: (val) => set({ newTimeAgo: val }),
+
+  // Calculation Result Modal
+  calcModalVisible: false,
+  setCalcModalVisible: (val) => set({ calcModalVisible: val }),
+
+  calcResult: null,
+  setCalcResult: (val) => set({ calcResult: val }),
+
+  // Liters
+  liters: 0, // Initial value
+  incrementLiters: (amount) =>
+    set((state) => ({ liters: state.liters + amount })),
+  setLiters: (val) => set({ liters: val }),
+
+  // Modal control
+  litersModalVisible: false,
+  setLitersModalVisible: (val) => set({ litersModalVisible: val }),
 }));

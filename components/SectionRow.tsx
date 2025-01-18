@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   section: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 10,
+    marginVertical: 8,
   },
   iconContainer: {
     width: 35,
