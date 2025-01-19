@@ -40,6 +40,9 @@ const AddDrinkModal: React.FC = () => {
   // Local state for showing the search modal
   const [showSearchABV, setShowSearchABV] = useState(false);
 
+  /**
+   * Closes the modal and resets fields.
+   */
   const handleClose = async () => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     setModalVisible(false);
@@ -48,6 +51,9 @@ const AddDrinkModal: React.FC = () => {
     setNewTimeAgo('');
   };
 
+  /**
+   * Saves the drink if all fields are filled.
+   */
   const handleSaveDrink = async () => {
     if (newDrinkQuantity && newAlcoholPercentage && newTimeAgo) {
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -56,16 +62,27 @@ const AddDrinkModal: React.FC = () => {
     handleClose();
   };
 
+  /**
+   * Quickly set the preset volume (ml).
+   */
   const setPresetVolume = async (volume: string) => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     setNewDrinkQuantity(volume);
   };
 
   /**
-   * Called when the user picks a beverage from local DB.
+   * User picks a beverage from local DB => sets the Alcohol %.
    */
   const handleSelectABV = (abv: string) => {
     setNewAlcoholPercentage(abv);
+  };
+
+  /**
+   * Quickly set the time (minutes ago).
+   */
+  const setTimePreset = async (minutes: string) => {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    setNewTimeAgo(minutes);
   };
 
   return (
@@ -80,7 +97,8 @@ const AddDrinkModal: React.FC = () => {
       useNativeDriver
       hideModalContentWhileAnimating
       onModalHide={() => {
-      TextInput.State.blurTextInput(TextInput.State.currentlyFocusedInput());
+        // Dismiss keyboard if it was open
+        TextInput.State.blurTextInput(TextInput.State.currentlyFocusedInput());
       }}
     >
       <View style={[styles.modalContent, { backgroundColor: theme.systemGray6 }]}>
@@ -116,7 +134,7 @@ const AddDrinkModal: React.FC = () => {
             <Text style={[styles.presetText, { color: theme.label }]}>Wine{"\n"}150ml</Text>
           </Pressable>
 
-          {/* Little Beer */}
+          {/* Medium Beer */}
           <Pressable
             style={[styles.presetButton, { backgroundColor: theme.systemGray5 }]}
             onPress={() => setPresetVolume('330')}
@@ -125,7 +143,7 @@ const AddDrinkModal: React.FC = () => {
             <Text style={[styles.presetText, { color: theme.label }]}>Medium Beer{"\n"}330ml</Text>
           </Pressable>
 
-          {/* Big Beer */}
+          {/* Large Beer */}
           <Pressable
             style={[styles.presetButton, { backgroundColor: theme.systemGray5 }]}
             onPress={() => setPresetVolume('500')}
@@ -137,7 +155,7 @@ const AddDrinkModal: React.FC = () => {
 
         {/* "Alcohol %" + search button on the LEFT */}
         <View style={styles.alcoholRow}>
-          {/* Search button on the LEFT */}
+          {/* Search button */}
           <Pressable
             style={[styles.searchButton, { backgroundColor: theme.systemGray3 }]}
             onPress={() => setShowSearchABV(true)}
@@ -168,6 +186,28 @@ const AddDrinkModal: React.FC = () => {
           value={newTimeAgo}
           onChangeText={setNewTimeAgo}
         />
+
+        {/* Quick Time Presets */}
+        <View style={styles.timePresetsRow}>
+          <Pressable
+            style={[styles.timePresetButton, { backgroundColor: theme.systemGray5 }]}
+            onPress={() => setTimePreset('30')}
+          >
+            <Text style={[styles.timePresetText, { color: theme.label }]}>30 min</Text>
+          </Pressable>
+          <Pressable
+            style={[styles.timePresetButton, { backgroundColor: theme.systemGray5 }]}
+            onPress={() => setTimePreset('60')}
+          >
+            <Text style={[styles.timePresetText, { color: theme.label }]}>60 min</Text>
+          </Pressable>
+          <Pressable
+            style={[styles.timePresetButton, { backgroundColor: theme.systemGray5 }]}
+            onPress={() => setTimePreset('120')}
+          >
+            <Text style={[styles.timePresetText, { color: theme.label }]}>120 min</Text>
+          </Pressable>
+        </View>
 
         {/* Modal buttons */}
         <View style={styles.modalButtons}>
@@ -239,7 +279,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 
-  // Alcohol row for search button + text input
   alcoholRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -259,6 +298,24 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     fontSize: 16,
+  },
+
+  timePresetsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 15,
+  },
+  timePresetButton: {
+    width: 80,
+    height: 44,
+    borderRadius: 8,
+
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  timePresetText: {
+    fontSize: 14,
+    fontWeight: '600',
   },
 
   modalButtons: {

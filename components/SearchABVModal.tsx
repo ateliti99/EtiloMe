@@ -78,11 +78,11 @@ const SearchABVModal: React.FC<SearchABVModalProps> = ({
           onChangeText={(val) => setSearchTerm(val)}
         />
 
+        {/* Results */}
         <FlatList
           data={filtered}
           keyExtractor={(item) => item.name}
           style={styles.list}
-          keyboardShouldPersistTaps="handled"
           renderItem={({ item }) => (
             <Pressable
               style={[styles.listItem, { backgroundColor: theme.systemGray5 }]}

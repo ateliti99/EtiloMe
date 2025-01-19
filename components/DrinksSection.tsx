@@ -49,8 +49,14 @@ const DrinksSection: React.FC = () => {
           style={[styles.drinkItem, { backgroundColor: theme.systemGray4 }]}
         >
           <Text style={[styles.drinkText, { color: theme.label }]}>
-            Quantity: {drink.quantity}ml, Alcohol: {drink.percentage}%,
-            Time: {drink.time} min ago
+            <Text style={styles.labelText}>Quantity: </Text>
+            <Text>{drink.quantity}ml</Text>
+            {'\n'}
+            <Text style={styles.labelText}>Alcohol: </Text>
+            <Text>{drink.percentage}%</Text>
+            {'\n'}
+            <Text style={styles.labelText}>Time: </Text>
+            <Text>{drink.time} min ago</Text>
           </Text>
           <Pressable onPress={() => handleRemoveDrink(index)}>
             <Ionicons name="remove-circle" size={24} color={theme.systemRed} />
@@ -94,5 +100,8 @@ const styles = StyleSheet.create({
   drinkText: {
     fontSize: 16,
     flex: 1,
+  },
+  labelText: {
+    fontWeight: 'bold', // Highlight labels with bold text
   },
 });
