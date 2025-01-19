@@ -33,10 +33,9 @@ export default function LitersModal() {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     setLitersModalVisible(false);
   };
-
   const handleSave = async () => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    const parsed = parseFloat(newLiters);
+    const parsed = parseFloat(newLiters.replace(',', '.'));
     if (!isNaN(parsed) && parsed >= 0) {
       setLiters(parsed);
     }

@@ -22,7 +22,7 @@ export default function TestInformation() {
   const theme = Colors[colorScheme];
 
   return (
-    <ScrollView style={[styles.parentContainer, { backgroundColor: theme.systemGray6 }]}>
+    <ScrollView style={[styles.parentContainer, { backgroundColor: theme.systemGray6 }]} keyboardShouldPersistTaps="handled">
       <KeyboardAvoidingView
         style={{ width: '100%' }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
