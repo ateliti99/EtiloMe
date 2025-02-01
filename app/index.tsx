@@ -1,23 +1,90 @@
+// components/Index.tsx
 import React from "react";
 import { Text, View, StyleSheet, Pressable } from "react-native";
 import { useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
 
-// Your imports
 import { Colors } from "@/constants/Colors";
 import { useAppStore } from "@/store/appStore";
-import Summary from "@/components/Summary";         // or ProfileHeader
+import Summary from "@/components/Summary";
 import SectionTitle from "@/components/SectionTitle";
 import TestInformation from "@/components/TestInformation";
 import ResultModal from "@/components/ResultModal";
 import LitersModal from "@/components/LitersModal";
 
+interface Drink {
+  quantity: string;
+  percentage: string;
+  time: string;
+}
+
+/**
+ * Calculates Blood Alcohol Concentration (BAC) using the Widmark formula.
+ * Returns an object containing:
+ * - bac: total BAC in g/L.
+ * - totalDrinkMl: total volume of drinks in milliliters.
+ *
+ * @param drinks Array of drinks consumed.
+ * @param weightKg Weight of the individual in kilograms.
+ * @param selectedGender "male" or "female".
+ * @param emptyStomach Boolean indicating if the person drank on an empty stomach.
+ */
+function calculateBAC(
+  drinks: Drink[],
+  weightKg: number,
+  selectedGender: "male" | "female",
+  emptyStomach: boolean
+): { bac: number; totalDrinkMl: number } {
+  // Alcohol distribution ratio (r)
+  const r = selectedGender === "male" ? 0.68 : 0.55;
+  // Metabolism rate in g/dL per hour (approximate values)
+  const metabolismRate = selectedGender === "male" ? 0.015 : 0.017;
+  const weightInGrams = weightKg * 1000;
+
+  const { totalBACgPerdL, totalDrinkMl } = drinks.reduce(
+    (acc, drink) => {
+      const volumeMl = parseFloat(drink.quantity);
+      const alcoholPct = parseFloat(drink.percentage);
+      const timeMinutes = parseFloat(drink.time);
+
+      if (
+        isNaN(volumeMl) ||
+        isNaN(alcoholPct) ||
+        isNaN(timeMinutes) ||
+        volumeMl <= 0 ||
+        alcoholPct <= 0 ||
+        timeMinutes < 0
+      ) {
+        return acc;
+      }
+
+      acc.totalDrinkMl += volumeMl;
+      // Grams of ethanol (density of ethanol ~0.789 g/mL)
+      const ethanolGrams = volumeMl * (alcoholPct / 100) * 0.789;
+      // Initial BAC in g/dL (Widmark formula)
+      const initialBAC = (ethanolGrams / (weightInGrams * r)) * 100;
+      const hoursSinceDrink = timeMinutes / 60;
+      // Subtract metabolism; clamp to 0 if negative
+      const drinkBAC = Math.max(0, initialBAC - metabolismRate * hoursSinceDrink);
+      acc.totalBACgPerdL += drinkBAC;
+      return acc;
+    },
+    { totalBACgPerdL: 0, totalDrinkMl: 0 }
+  );
+
+  // Increase BAC if consumed on an empty stomach
+  const adjustedBAC = emptyStomach ? totalBACgPerdL * 1.1 : totalBACgPerdL;
+  // Convert from g/dL to g/L (1 g/dL = 10 g/L) and clamp to a minimum of 0.
+  const finalBACgPerL = Math.max(0, adjustedBAC * 10);
+  return { bac: finalBACgPerL, totalDrinkMl };
+}
+
 export default function Index() {
   const colorScheme = useColorScheme() || "light";
   const theme = Colors[colorScheme];
 
-  // Zustand store usage
+  // Zustand store values and actions
   const {
     age,
     weight,
@@ -25,27 +92,22 @@ export default function Index() {
     emptyStomach,
     drinks,
     liters,
-
     setCalcModalVisible,
     setCalcResult,
     incrementLiters,
-
-    // Our new store props for the Liters Modal
     setLitersModalVisible,
   } = useAppStore();
 
   /**
-   * Called when user taps pencil icon to edit liters.
-   * Instead of directly incrementing, we'll open the LitersModal for manual input.
+   * Opens the Liters Modal for manual editing.
    */
   const handleOnEditLiters = async () => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    // Open the "Edit Liters" modal
     setLitersModalVisible(true);
   };
 
   /**
-   * Handler for the "Calculate" button (BAC using Widmark formula).
+   * Handler for the "Calculate" button. Validates input, calculates BAC, and then updates the store.
    */
   const handleCalculate = async () => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
@@ -67,82 +129,32 @@ export default function Index() {
       return;
     }
 
-    // Widmark formula factors
-    const r = selectedGender === "male" ? 0.68 : 0.55;
-    let metabolismRate = selectedGender === "male" ? 0.015 : 0.017;
-    const emptyStomachMultiplier = emptyStomach ? 1.1 : 1.0;
-    const weightInGrams = weightKg * 1000;
-    let totalBACgPerdL = 0;
-    let totalDrinkMl = 0;
+    if (selectedGender !== "male" && selectedGender !== "female") {
+      alert("Please select a valid gender.");
+      return;
+    }
+    const { bac, totalDrinkMl } = calculateBAC(drinks, weightKg, selectedGender as "male" | "female", !!emptyStomach);
+    const formattedBAC = `${bac.toFixed(3)} g/L`;
 
-    drinks.forEach((drink) => {
-      const volumeMl = parseFloat(drink.quantity);
-      const alcoholPct = parseFloat(drink.percentage);
-      const timeMinutes = parseFloat(drink.time);
-
-      if (
-        isNaN(volumeMl) ||
-        isNaN(alcoholPct) ||
-        isNaN(timeMinutes) ||
-        volumeMl <= 0 ||
-        alcoholPct <= 0 ||
-        timeMinutes < 0
-      ) {
-        return;
-      }
-
-      // Track total volume (for demonstration)
-      totalDrinkMl += volumeMl;
-
-      // 1) Grams of ethanol
-      const ethanolGrams = volumeMl * (alcoholPct / 100) * 0.789;
-      // 2) initial BAC in g/dL
-      const singleDrinkBAC_gPerdL = (ethanolGrams / (weightInGrams * r)) * 100;
-      // 3) subtract metabolism
-      const hoursSinceDrink = timeMinutes / 60;
-      let leftover = singleDrinkBAC_gPerdL - metabolismRate * hoursSinceDrink;
-      if (leftover < 0) leftover = 0;
-
-      totalBACgPerdL += leftover;
-    });
-
-    // Adjust for empty stomach
-    totalBACgPerdL *= emptyStomachMultiplier;
-    // Convert g/dL to g/L
-    const totalBACgPerL = totalBACgPerdL * 10;
-    // Final clamp
-    const finalBACgPerL = Math.max(0, totalBACgPerL);
-    const formatted = finalBACgPerL.toFixed(3) + " g/L";
-
-    // Set the result in the store & show result modal
-    setCalcResult(formatted);
+    setCalcResult(formattedBAC);
     setCalcModalVisible(true);
-
-    // Also increment total liters based on totalDrinkMl
     incrementLiters(parseFloat((totalDrinkMl / 1000).toFixed(2)));
   };
 
   return (
     <SafeAreaView style={[styles.main, { backgroundColor: theme.systemBackground }]}>
-      {/* Title */}
       <SectionTitle title="Summary" />
+      <Summary liters={liters} onEditLiters={handleOnEditLiters} />
 
-      {/* Summary with pencil icon to edit liters */}
-      <Summary
-        liters={liters}
-        onEditLiters={handleOnEditLiters} // <--- Pass the callback
-      />
-
-      {/* Space */}
-      <View style={{ height: 10 }} />
+      {/* Spacer */}
+      <View style={styles.spacer} />
 
       <SectionTitle title="Alcohol Test" />
       <TestInformation />
 
-      {/* Space */}
-      <View style={{ height: 5 }} />
+      {/* Small Spacer */}
+      <View style={styles.smallSpacer} />
 
-      {/* CALCULATE button */}
       <Pressable
         style={[styles.calculateButton, { backgroundColor: theme.systemBlue }]}
         onPress={handleCalculate}
@@ -150,7 +162,7 @@ export default function Index() {
         <Text style={styles.calculateButtonText}>Calculate</Text>
       </Pressable>
 
-      {/* Show BAC result in a modal */}
+      {/* Modals */}
       <ResultModal />
       <LitersModal />
     </SafeAreaView>
@@ -163,11 +175,18 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
   },
+  spacer: {
+    height: 10,
+  },
+  smallSpacer: {
+    height: 5,
+  },
   calculateButton: {
     width: "90%",
     paddingVertical: 15,
     borderRadius: 10,
     alignItems: "center",
+    marginBottom: 20,
   },
   calculateButtonText: {
     color: "#fff",

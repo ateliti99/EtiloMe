@@ -1,5 +1,5 @@
 // components/SearchABVModal.tsx
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   View,
   Text,
@@ -19,29 +19,33 @@ import { Colors } from '@/constants/Colors';
 interface SearchABVModalProps {
   visible: boolean;
   onClose: () => void;
-  onSelectABV: (abv: string) => void;  // callback to set the ABV in the parent
+  onSelectABV: (abv: string) => void; // Callback to set the ABV in the parent
+  maxResults?: number; // Optional prop to limit the number of results shown
 }
 
 const SearchABVModal: React.FC<SearchABVModalProps> = ({
   visible,
   onClose,
-  onSelectABV
+  onSelectABV,
+  maxResults = 10, // Default to 10 if not provided
 }) => {
   const colorScheme = useColorScheme() || 'light';
   const theme = Colors[colorScheme];
 
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Filter the local DB
-  const filtered = searchTerm
-    ? BEVERAGES_DB.filter((item) =>
-        item.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : BEVERAGES_DB; // If no searchTerm, show the entire list
+  // Compute filtered list and limit results using useMemo
+  const results = useMemo(() => {
+    const filtered = searchTerm
+      ? BEVERAGES_DB.filter((item) =>
+          item.name.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      : BEVERAGES_DB;
+    return filtered.slice(0, maxResults);
+  }, [searchTerm, maxResults]);
 
   const handleSelect = async (abv: string) => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    // Pass ABV back to the parent
     onSelectABV(abv);
     onClose();
   };
@@ -58,7 +62,8 @@ const SearchABVModal: React.FC<SearchABVModalProps> = ({
       useNativeDriver
       hideModalContentWhileAnimating
       onModalHide={() => {
-      TextInput.State.blurTextInput(TextInput.State.currentlyFocusedInput());
+        // Dismiss keyboard if open
+        TextInput.State.blurTextInput(TextInput.State.currentlyFocusedInput());
       }}
     >
       <View style={[styles.container, { backgroundColor: theme.systemGray6 }]}>
@@ -68,25 +73,25 @@ const SearchABVModal: React.FC<SearchABVModalProps> = ({
 
         {/* Search field */}
         <TextInput
-          style={[styles.input, { 
-            borderColor: theme.systemGray3, 
-            color: theme.label 
-          }]}
+          style={[
+            styles.input,
+            { borderColor: theme.systemGray3, color: theme.label }
+          ]}
           placeholder="Type beverage name..."
           placeholderTextColor={theme.systemGray3}
           value={searchTerm}
-          onChangeText={(val) => setSearchTerm(val)}
+          onChangeText={setSearchTerm}
         />
 
         {/* Results */}
         <FlatList
-          data={filtered}
+          data={results}
           keyExtractor={(item) => item.name}
           style={styles.list}
           renderItem={({ item }) => (
             <Pressable
               style={[styles.listItem, { backgroundColor: theme.systemGray5 }]}
-              onPress={() => handleSelect(item.abv)}
+              onPress={() => handleSelect(item.abv.toString())}
             >
               <Text style={{ color: theme.label }}>
                 {item.name} ({item.abv}%)
@@ -95,7 +100,7 @@ const SearchABVModal: React.FC<SearchABVModalProps> = ({
           )}
         />
 
-        {/* Close */}
+        {/* Close button */}
         <View style={styles.footer}>
           <Pressable onPress={onClose} style={styles.closeButton}>
             <Text style={[styles.closeButtonText, { color: theme.systemBlue }]}>
