@@ -1,4 +1,6 @@
 import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Drink {
   quantity: string;
@@ -39,7 +41,7 @@ interface AppState {
   calcModalVisible: boolean;
   setCalcModalVisible: (val: boolean) => void;
 
-  // The final BAC result string (e.g., "0.056 g/L")
+  // The final BAC result string
   calcResult: string | null;
   setCalcResult: (val: string | null) => void;
 
@@ -53,55 +55,65 @@ interface AppState {
   setLitersModalVisible: (val: boolean) => void;
 }
 
-export const useAppStore = create<AppState>((set) => ({
-  // Gender
-  selectedGender: null,
-  setSelectedGender: (gender) => set({ selectedGender: gender }),
+export const useAppStore = create<AppState>()(
+  persist(
+    (set) => ({
+      // Gender
+      selectedGender: null,
+      setSelectedGender: (gender) => set({ selectedGender: gender }),
 
-  // Age, Weight, Stomach
-  age: '',
-  setAge: (age) => set({ age }),
-  weight: '',
-  setWeight: (weight) => set({ weight }),
-  emptyStomach: null,
-  setEmptyStomach: (val) => set({ emptyStomach: val }),
+      // Age, Weight, Stomach
+      age: '',
+      setAge: (age) => set({ age }),
+      weight: '',
+      setWeight: (weight) => set({ weight }),
+      emptyStomach: null,
+      setEmptyStomach: (val) => set({ emptyStomach: val }),
 
-  // Drinks
-  drinks: [],
-  addDrink: (quantity, percentage, time) =>
-    set((state) => ({
-      drinks: [...state.drinks, { quantity, percentage, time }],
-    })),
-  removeDrink: (index) =>
-    set((state) => ({
-      drinks: state.drinks.filter((_, i) => i !== index),
-    })),
+      // Drinks
+      drinks: [],
+      addDrink: (quantity, percentage, time) =>
+        set((state) => ({
+          drinks: [...state.drinks, { quantity, percentage, time }],
+        })),
+      removeDrink: (index) =>
+        set((state) => ({
+          drinks: state.drinks.filter((_, i) => i !== index),
+        })),
 
-  // Modal + new drink fields
-  isModalVisible: false,
-  setModalVisible: (val) => set({ isModalVisible: val }),
+      // Modal + new drink fields
+      isModalVisible: false,
+      setModalVisible: (val) => set({ isModalVisible: val }),
 
-  newDrinkQuantity: '',
-  setNewDrinkQuantity: (val) => set({ newDrinkQuantity: val }),
-  newAlcoholPercentage: '',
-  setNewAlcoholPercentage: (val) => set({ newAlcoholPercentage: val }),
-  newTimeAgo: '',
-  setNewTimeAgo: (val) => set({ newTimeAgo: val }),
+      newDrinkQuantity: '',
+      setNewDrinkQuantity: (val) => set({ newDrinkQuantity: val }),
+      newAlcoholPercentage: '',
+      setNewAlcoholPercentage: (val) => set({ newAlcoholPercentage: val }),
+      newTimeAgo: '',
+      setNewTimeAgo: (val) => set({ newTimeAgo: val }),
 
-  // Calculation Result Modal
-  calcModalVisible: false,
-  setCalcModalVisible: (val) => set({ calcModalVisible: val }),
+      // Calculation Result Modal
+      calcModalVisible: false,
+      setCalcModalVisible: (val) => set({ calcModalVisible: val }),
 
-  calcResult: null,
-  setCalcResult: (val) => set({ calcResult: val }),
+      calcResult: null,
+      setCalcResult: (val) => set({ calcResult: val }),
 
-  // Liters
-  liters: 0, // Initial value
-  incrementLiters: (amount) =>
-    set((state) => ({ liters: state.liters + amount })),
-  setLiters: (val) => set({ liters: val }),
+      // Liters
+      liters: 0,
+      incrementLiters: (amount) =>
+        set((state) => ({ liters: state.liters + amount })),
+      setLiters: (val) => set({ liters: val }),
 
-  // Modal control
-  litersModalVisible: false,
-  setLitersModalVisible: (val) => set({ litersModalVisible: val }),
-}));
+      // Modal control
+      litersModalVisible: false,
+      setLitersModalVisible: (val) => set({ litersModalVisible: val }),
+    }),
+    {
+      name: 'my-app-store',
+      storage: createJSONStorage(() => AsyncStorage),
+      // Only persist the `liters` field
+      partialize: (state) => ({ liters: state.liters }),
+    }
+  )
+);
