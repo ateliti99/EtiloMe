@@ -90,6 +90,7 @@ const SearchABVModal: React.FC<SearchABVModalProps> = ({
           data={results}
           keyExtractor={(item) => item.name}
           style={styles.list}
+          keyboardShouldPersistTaps="always" // Allow taps even when keyboard is open
           renderItem={({ item }) => (
             <Pressable
               style={[styles.listItem, { backgroundColor: theme.systemGray5 }]}
@@ -101,6 +102,7 @@ const SearchABVModal: React.FC<SearchABVModalProps> = ({
             </Pressable>
           )}
         />
+
 
         {/* Close button */}
         <View style={styles.footer}>

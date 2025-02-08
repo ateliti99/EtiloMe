@@ -29,7 +29,6 @@ const EmptyStomachSelector: React.FC = () => {
             size={25}
             color={emptyStomach === true ? theme.systemTeal : theme.label}
           />
-          <Text>{t('emptyStomachSelector:yes')}</Text>
         </Pressable>
         <Pressable onPress={() => handlePress(false)} style={styles.iconWrapper}>
           <Ionicons
@@ -37,7 +36,6 @@ const EmptyStomachSelector: React.FC = () => {
             size={25}
             color={emptyStomach === false ? theme.systemPink : theme.label}
           />
-          <Text>{t('emptyStomachSelector:no')}</Text>
         </Pressable>
       </View>
     </SectionRow>
