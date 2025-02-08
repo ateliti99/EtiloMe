@@ -49,7 +49,7 @@
     "react-native-web": "~0.19.13",
     "react-native-webview": "13.12.5",
     "zustand": "^5.0.3",
-    "@expo/config-plugins": "~9.0.0"
+    "@expo/config-plugins": "9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -65,7 +65,8 @@
   "expo": {
     "doctor": {
       "reactNativeDirectoryCheck": {
-        "exclude": ["expo-ads-admob", "i18next"]
+        "exclude": ["react-native-modal"],
+        "listUnknownPackages": false
       }
     }
   }
