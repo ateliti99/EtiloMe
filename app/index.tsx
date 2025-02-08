@@ -4,7 +4,9 @@ import { Text, View, StyleSheet, Pressable } from "react-native";
 import { useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
+import { useTranslation } from 'react-i18next';
 
+import '../lang/i18n';
 import { Colors } from "@/constants/Colors";
 import { useAppStore } from "@/store/appStore";
 import Summary from "@/components/Summary";
@@ -81,6 +83,7 @@ function calculateBAC(
 }
 
 export default function Index() {
+  const { t } = useTranslation();
   const colorScheme = useColorScheme() || "light";
   const theme = Colors[colorScheme];
 
@@ -113,24 +116,24 @@ export default function Index() {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
 
     if (!age || !weight || !selectedGender || !drinks || drinks.length === 0) {
-      alert("Please fill in all required information to proceed with the calculation.");
+      alert(t('index:fillRequiredInfo'));
       return;
     }
 
     const weightKg = parseFloat(weight);
     if (isNaN(weightKg) || weightKg <= 0) {
-      alert("Please enter a valid weight in kilograms.");
+      alert(t('index:validWeight'));
       return;
     }
 
     const ageVal = parseInt(age, 10);
     if (isNaN(ageVal) || ageVal < 18) {
-      alert("You must be at least 18 years old (or provide a valid age) to use this calculator.");
+      alert(t('index:validAge'));
       return;
     }
 
     if (selectedGender !== "male" && selectedGender !== "female") {
-      alert("Please select a valid gender.");
+      alert(t('index:validGender'));
       return;
     }
     const { bac, totalDrinkMl } = calculateBAC(drinks, weightKg, selectedGender as "male" | "female", !!emptyStomach);
@@ -143,13 +146,13 @@ export default function Index() {
 
   return (
     <SafeAreaView style={[styles.main, { backgroundColor: theme.systemBackground }]}>
-      <SectionTitle title="Summary" />
+      <SectionTitle title={t('index:summary')} />
       <Summary liters={liters} onEditLiters={handleOnEditLiters} />
 
       {/* Spacer */}
       <View style={styles.spacer} />
 
-      <SectionTitle title="Alcohol Test" />
+      <SectionTitle title={t('index:alcoholTest')} />
       <TestInformation />
 
       {/* Small Spacer */}
@@ -159,7 +162,7 @@ export default function Index() {
         style={[styles.calculateButton, { backgroundColor: theme.systemBlue }]}
         onPress={handleCalculate}
       >
-        <Text style={styles.calculateButtonText}>Calculate</Text>
+        <Text style={styles.calculateButtonText}>{t('index:calculate')}</Text>
       </Pressable>
 
       {/* Modals */}

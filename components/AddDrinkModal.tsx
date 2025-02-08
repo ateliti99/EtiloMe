@@ -14,11 +14,13 @@ import * as Haptics from 'expo-haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
 import { useAppStore } from '@/store/appStore';
+import { useTranslation } from 'react-i18next';
 
 // Import the new search modal
 import SearchABVModal from './SearchABVModal';
 
 const AddDrinkModal: React.FC = () => {
+  const { t } = useTranslation();
   const colorScheme = useColorScheme() || 'light';
   const theme = Colors[colorScheme];
 
@@ -102,12 +104,12 @@ const AddDrinkModal: React.FC = () => {
       }}
     >
       <View style={[styles.modalContent, { backgroundColor: theme.systemGray6 }]}>
-        <Text style={[styles.modalTitle, { color: theme.label }]}>Add Drink</Text>
+        <Text style={[styles.modalTitle, { color: theme.label }]}>{t('addDrinkModal:title')}</Text>
 
         {/* Quantity (ml) */}
         <TextInput
           style={[styles.input, { color: theme.label, borderColor: theme.systemGray3 }]}
-          placeholder="Quantity (ml)"
+          placeholder={t('addDrinkModal:quantityPlaceholder')}
           placeholderTextColor={theme.systemGray3}
           keyboardType="numeric"
           value={newDrinkQuantity}
@@ -122,7 +124,7 @@ const AddDrinkModal: React.FC = () => {
             onPress={() => setPresetVolume('40')}
           >
             <Ionicons name="cafe-outline" size={20} color={theme.label} style={styles.icon} />
-            <Text style={[styles.presetText, { color: theme.label }]}>Shot{"\n"}40ml</Text>
+            <Text style={[styles.presetText, { color: theme.label }]}>{t('addDrinkModal:presetVolumes:40')}</Text>
           </Pressable>
 
           {/* Wine */}
@@ -131,7 +133,7 @@ const AddDrinkModal: React.FC = () => {
             onPress={() => setPresetVolume('150')}
           >
             <Ionicons name="wine-outline" size={20} color={theme.label} style={styles.icon} />
-            <Text style={[styles.presetText, { color: theme.label }]}>Wine{"\n"}150ml</Text>
+            <Text style={[styles.presetText, { color: theme.label }]}>{t('addDrinkModal:presetVolumes:150')}</Text>
           </Pressable>
 
           {/* Medium Beer */}
@@ -140,7 +142,7 @@ const AddDrinkModal: React.FC = () => {
             onPress={() => setPresetVolume('330')}
           >
             <Ionicons name="beer-outline" size={20} color={theme.label} style={styles.icon} />
-            <Text style={[styles.presetText, { color: theme.label }]}>Medium Beer{"\n"}330ml</Text>
+            <Text style={[styles.presetText, { color: theme.label }]}>{t('addDrinkModal:presetVolumes:330')}</Text>
           </Pressable>
 
           {/* Large Beer */}
@@ -149,7 +151,7 @@ const AddDrinkModal: React.FC = () => {
             onPress={() => setPresetVolume('500')}
           >
             <Ionicons name="beer-outline" size={24} color={theme.label} style={styles.icon} />
-            <Text style={[styles.presetText, { color: theme.label }]}>Large Beer{"\n"}500ml</Text>
+            <Text style={[styles.presetText, { color: theme.label }]}>{t('addDrinkModal:presetVolumes:500')}</Text>
           </Pressable>
         </View>
 
@@ -169,7 +171,7 @@ const AddDrinkModal: React.FC = () => {
               styles.alcoholInput,
               { color: theme.label, borderColor: theme.systemGray3 },
             ]}
-            placeholder="Alcohol %"
+            placeholder={t('addDrinkModal:alcoholPlaceholder')}
             placeholderTextColor={theme.systemGray3}
             keyboardType="numeric"
             value={newAlcoholPercentage}
@@ -180,7 +182,7 @@ const AddDrinkModal: React.FC = () => {
         {/* Time ago (minutes) */}
         <TextInput
           style={[styles.input, { color: theme.label, borderColor: theme.systemGray3 }]}
-          placeholder="Time ago (minutes)"
+          placeholder={t('addDrinkModal:timeAgoPlaceholder')}
           placeholderTextColor={theme.systemGray3}
           keyboardType="numeric"
           value={newTimeAgo}
@@ -193,29 +195,29 @@ const AddDrinkModal: React.FC = () => {
             style={[styles.timePresetButton, { backgroundColor: theme.systemGray5 }]}
             onPress={() => setTimePreset('30')}
           >
-            <Text style={[styles.timePresetText, { color: theme.label }]}>30 min</Text>
+            <Text style={[styles.timePresetText, { color: theme.label }]}>{t('addDrinkModal:timePresets:30')}</Text>
           </Pressable>
           <Pressable
             style={[styles.timePresetButton, { backgroundColor: theme.systemGray5 }]}
             onPress={() => setTimePreset('60')}
           >
-            <Text style={[styles.timePresetText, { color: theme.label }]}>60 min</Text>
+            <Text style={[styles.timePresetText, { color: theme.label }]}>{t('addDrinkModal:timePresets:60')}</Text>
           </Pressable>
           <Pressable
             style={[styles.timePresetButton, { backgroundColor: theme.systemGray5 }]}
             onPress={() => setTimePreset('120')}
           >
-            <Text style={[styles.timePresetText, { color: theme.label }]}>120 min</Text>
+            <Text style={[styles.timePresetText, { color: theme.label }]}>{t('addDrinkModal:timePresets:120')}</Text>
           </Pressable>
         </View>
 
         {/* Modal buttons */}
         <View style={styles.modalButtons}>
           <Pressable onPress={handleClose} style={styles.button}>
-            <Text style={[styles.buttonText, { color: theme.systemRed }]}>Cancel</Text>
+            <Text style={[styles.buttonText, { color: theme.systemRed }]}>{t('addDrinkModal:cancelButton')}</Text>
           </Pressable>
           <Pressable onPress={handleSaveDrink} style={styles.button}>
-            <Text style={[styles.buttonText, { color: theme.systemGreen }]}>Save</Text>
+            <Text style={[styles.buttonText, { color: theme.systemGreen }]}>{t('addDrinkModal:saveButton')}</Text>
           </Pressable>
         </View>
       </View>

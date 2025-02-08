@@ -1,13 +1,14 @@
-// components/EmptyStomachSelector.tsx
 import React from 'react';
-import { View, Pressable, StyleSheet, useColorScheme } from 'react-native';
+import { Text, View, Pressable, StyleSheet, useColorScheme } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { Colors } from '@/constants/Colors';
 import { useAppStore } from '@/store/appStore';
 import SectionRow from '@/components/SectionRow';
+import { useTranslation } from 'react-i18next';
 
 const EmptyStomachSelector: React.FC = () => {
+  const { t } = useTranslation();
   const colorScheme = useColorScheme() || 'light';
   const theme = Colors[colorScheme];
 
@@ -20,7 +21,7 @@ const EmptyStomachSelector: React.FC = () => {
   };
 
   return (
-    <SectionRow iconName="nutrition" title="Empty stomach?">
+    <SectionRow iconName="nutrition" title={t('emptyStomachSelector:title')}>
       <View style={styles.iconsContainer}>
         <Pressable onPress={() => handlePress(true)} style={styles.iconWrapper}>
           <Ionicons
@@ -28,6 +29,7 @@ const EmptyStomachSelector: React.FC = () => {
             size={25}
             color={emptyStomach === true ? theme.systemTeal : theme.label}
           />
+          <Text>{t('emptyStomachSelector:yes')}</Text>
         </Pressable>
         <Pressable onPress={() => handlePress(false)} style={styles.iconWrapper}>
           <Ionicons
@@ -35,6 +37,7 @@ const EmptyStomachSelector: React.FC = () => {
             size={25}
             color={emptyStomach === false ? theme.systemPink : theme.label}
           />
+          <Text>{t('emptyStomachSelector:no')}</Text>
         </Pressable>
       </View>
     </SectionRow>

@@ -6,6 +6,7 @@ import * as Haptics from 'expo-haptics';
 import { Colors } from '@/constants/Colors';
 import { useAppStore } from '@/store/appStore';
 import SectionRow from '@/components/SectionRow';
+import { t } from 'i18next';
 
 const GenderSelector: React.FC = () => {
   const colorScheme = useColorScheme() || 'light';
@@ -20,7 +21,7 @@ const GenderSelector: React.FC = () => {
   };
 
   return (
-    <SectionRow iconName="person-circle" title="Gender">
+    <SectionRow iconName="person-circle" title={t('genderSelector:title')}>
       <View style={styles.iconsContainer}>
         <Pressable onPress={() => handlePressGender('male')} style={styles.iconWrapper}>
           <Ionicons

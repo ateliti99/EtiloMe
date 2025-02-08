@@ -1,0 +1,95 @@
+{
+    "index": {
+      "fillRequiredInfo": "Please fill in all required information to proceed with the calculation.",
+      "validWeight": "Please enter a valid weight in kilograms.",
+      "validAge": "You must be at least 18 years old (or provide a valid age) to use this calculator.",
+      "validGender": "Please select a valid gender.",
+      "calculate": "Calculate",
+      "summary": "Summary",
+      "alcoholTest": "Alcohol Test"
+    },
+    "addDrinkModal": {
+      "title": "Add Drink",
+      "quantityPlaceholder": "Quantity (ml)",
+      "alcoholPlaceholder": "Alcohol %",
+      "timeAgoPlaceholder": "Time ago (minutes)",
+      "presetVolumes": {
+        "40": "Shot\n40ml",
+        "150": "Wine\n150ml",
+        "330": "Medium Beer\n330ml",
+        "500": "Large Beer\n500ml"
+      },
+      "searchButton": "Search",
+      "cancelButton": "Cancel",
+      "saveButton": "Save",
+      "timePresets": {
+        "30": "30 min",
+        "60": "60 min",
+        "120": "120 min"
+      }
+    },
+    "ageInput": {
+      "title": "Age",
+      "placeholder": "+18"
+    },
+    "drinksSection": {
+      "title": "Add your drinks",
+      "yourDrinks": "Your Drinks",
+      "noDrinks": "No drinks added yet 🍺",
+      "quantityLabel": "Quantity: ",
+      "alcoholLabel": "Alcohol: ",
+      "timeLabel": "Time: ",
+      "addDrinkButton": "Add Drink",
+      "removeDrinkButton": "Remove Drink"
+    },
+    "emptyStomachSelector": {
+      "title": "Empty stomach?",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "genderSelector": {
+      "title": "Gender",
+      "male": "Male",
+      "female": "Female"
+    },
+    "litersModal": {
+      "title": "Edit Liters",
+      "placeholder": "Liters",
+      "cancelButton": "Cancel",
+      "saveButton": "Save"
+    },
+    "resultModal": {
+      "title": "Your Alcohol Level",
+      "noResult": "No result",
+      "disclaimer": "Note: The values shown are only estimates and should not be used to make decisions about driving or other activities. Always drink responsibly.",
+      "callTaxiButton": "🚖 Call a Taxi",
+      "closeButton": "Close"
+    },
+    "searchABVModal": {
+      "title": "Search for a Beverage",
+      "placeholder": "Type beverage name...",
+      "closeButton": "Close"
+    },
+    "sectionRow": {
+      "iconName": "Icon",
+      "title": "Title"
+    },
+    "sectionTitle": {
+      "title": "Title"
+    },
+    "summary": {
+      "liters": "Liters",
+      "editButton": "Edit"
+    },
+    "testInformation": {
+      "gender": "Gender",
+      "age": "Age",
+      "weight": "Weight",
+      "emptyStomach": "Empty stomach?",
+      "drinksSection": "Add your drinks"
+    },
+    "weightInput": {
+      "title": "Weight",
+      "placeholder": "80 kg"
+    }
+  }

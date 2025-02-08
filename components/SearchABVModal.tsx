@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 import * as Haptics from 'expo-haptics';
+import { useTranslation } from 'react-i18next';
 
 // Our local "database"
 import { BEVERAGES_DB } from '@/data/BeverageDatabase';
@@ -31,6 +32,7 @@ const SearchABVModal: React.FC<SearchABVModalProps> = ({
 }) => {
   const colorScheme = useColorScheme() || 'light';
   const theme = Colors[colorScheme];
+  const { t } = useTranslation();
 
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -68,7 +70,7 @@ const SearchABVModal: React.FC<SearchABVModalProps> = ({
     >
       <View style={[styles.container, { backgroundColor: theme.systemGray6 }]}>
         <Text style={[styles.title, { color: theme.label }]}>
-          Search for a Beverage
+          {t('searchABVModal:title')}
         </Text>
 
         {/* Search field */}
@@ -104,7 +106,7 @@ const SearchABVModal: React.FC<SearchABVModalProps> = ({
         <View style={styles.footer}>
           <Pressable onPress={onClose} style={styles.closeButton}>
             <Text style={[styles.closeButtonText, { color: theme.systemBlue }]}>
-              Close
+              {t('searchABVModal:closeButton')}
             </Text>
           </Pressable>
         </View>

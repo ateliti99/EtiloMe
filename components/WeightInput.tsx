@@ -5,10 +5,12 @@ import * as Haptics from 'expo-haptics';
 import { Colors } from '@/constants/Colors';
 import { useAppStore } from '@/store/appStore';
 import SectionRow from '@/components/SectionRow';
+import { useTranslation } from 'react-i18next';
 
 const WeightInput: React.FC = () => {
   const colorScheme = useColorScheme() || 'light';
   const theme = Colors[colorScheme];
+  const { t } = useTranslation();
 
   const weight = useAppStore((state) => state.weight);
   const setWeight = useAppStore((state) => state.setWeight);
@@ -19,7 +21,7 @@ const WeightInput: React.FC = () => {
   };
 
   return (
-    <SectionRow iconName="fitness" title="Weight">
+    <SectionRow iconName="fitness" title={t('weightInput:title')}>
       <TextInput
         style={[styles.inputSmall, { color: theme.label, borderColor: theme.systemGray2 }]}
         keyboardType="numeric"

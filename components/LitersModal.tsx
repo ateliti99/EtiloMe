@@ -1,13 +1,13 @@
-// components/LitersModal.tsx
-
 import React, { useState } from 'react';
 import { View, Text, TextInput, Pressable, StyleSheet, useColorScheme } from 'react-native';
 import Modal from 'react-native-modal';
 import { Colors } from '@/constants/Colors';
 import { useAppStore } from '@/store/appStore';
 import * as Haptics from 'expo-haptics';
+import { useTranslation } from 'react-i18next';
 
 export default function LitersModal() {
+  const { t } = useTranslation();
   const colorScheme = useColorScheme() || 'light';
   const theme = Colors[colorScheme];
 
@@ -55,7 +55,7 @@ export default function LitersModal() {
       avoidKeyboard={true}
     >
       <View style={[styles.modalContent, { backgroundColor: theme.systemGray6 }]}>
-        <Text style={[styles.title, { color: theme.label }]}>Edit Liters</Text>
+        <Text style={[styles.title, { color: theme.label }]}>{t('litersModal:title')}</Text>
 
         <TextInput
           style={[styles.input, { borderColor: theme.systemGray, color: theme.label }]}
@@ -63,14 +63,15 @@ export default function LitersModal() {
           value={newLiters}
           onChangeText={setNewLiters}
           autoFocus
+          placeholder={t('litersModal:placeholder')}
         />
 
         <View style={styles.buttonsContainer}>
           <Pressable onPress={handleClose} style={styles.button}>
-            <Text style={[styles.buttonText, { color: theme.systemRed }]}>Cancel</Text>
+            <Text style={[styles.buttonText, { color: theme.systemRed }]}>{t('litersModal:cancelButton')}</Text>
           </Pressable>
           <Pressable onPress={handleSave} style={styles.button}>
-            <Text style={[styles.buttonText, { color: theme.systemGreen }]}>Save</Text>
+            <Text style={[styles.buttonText, { color: theme.systemGreen }]}>{t('litersModal:saveButton')}</Text>
           </Pressable>
         </View>
       </View>

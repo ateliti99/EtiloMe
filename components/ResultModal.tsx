@@ -4,8 +4,10 @@ import Modal from 'react-native-modal';
 import * as Haptics from 'expo-haptics';
 import { Colors } from '@/constants/Colors';
 import { useAppStore } from '@/store/appStore';
+import { useTranslation } from 'react-i18next';
 
 export default function ResultModal() {
+  const { t } = useTranslation();
   const colorScheme = useColorScheme() || 'light';
   const theme = Colors[colorScheme];
 
@@ -34,7 +36,6 @@ export default function ResultModal() {
       console.error('Error opening Uber:', error);
     }
   };
-  
 
   return (
     <Modal
@@ -47,25 +48,24 @@ export default function ResultModal() {
       avoidKeyboard
     >
       <View style={[styles.modalContent, { backgroundColor: theme.systemGray6 }]}>
-        <Text style={[styles.modalTitle, { color: theme.label }]}>Your Alcohol Level</Text>
+        <Text style={[styles.modalTitle, { color: theme.label }]}>{t('resultModal:title')}</Text>
 
-        <Text style={[styles.resultText, { color: theme.label }]}>{calcResult || 'No result'}</Text>
+        <Text style={[styles.resultText, { color: theme.label }]}>{calcResult || t('resultModal:noResult')}</Text>
 
         <Text style={[styles.disclaimerText, { color: theme.secondaryLabel }]}>
-          Note: The values shown are only estimates and should not be used to make decisions about
-          driving or other activities. Always drink responsibly.
+          {t('resultModal:disclaimer')}
         </Text>
 
         {/* Open Uber Button */}
         <Pressable onPress={handleOpenUber} style={[styles.uberButton, { backgroundColor: theme.systemBackground, borderColor: theme.label }]}>
           <Text style={[styles.uberButtonText, { color: theme.label }]}>
-          🚖 Call a Taxi
+            🚖 {t('resultModal:callTaxiButton')}
           </Text>
         </Pressable>
 
         {/* Close Button */}
         <Pressable onPress={handleClose} style={[styles.closeButton, { borderColor: theme.systemBlue }]}>
-          <Text style={[styles.closeButtonText, { color: theme.systemBlue }]}>Close</Text>
+          <Text style={[styles.closeButtonText, { color: theme.systemBlue }]}>{t('resultModal:closeButton')}</Text>
         </Pressable>
       </View>
     </Modal>

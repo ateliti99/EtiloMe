@@ -1,4 +1,3 @@
-// components/DrinksSection.tsx
 import React from 'react';
 import { View, Pressable, Text, StyleSheet, useColorScheme } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -6,8 +5,10 @@ import * as Haptics from 'expo-haptics';
 import { Colors } from '@/constants/Colors';
 import { useAppStore } from '@/store/appStore';
 import SectionRow from '@/components/SectionRow';
+import { useTranslation } from 'react-i18next';
 
 const DrinksSection: React.FC = () => {
+  const { t } = useTranslation();
   const colorScheme = useColorScheme() || 'light';
   const theme = Colors[colorScheme];
 
@@ -28,7 +29,7 @@ const DrinksSection: React.FC = () => {
 
   return (
     <View>
-      <SectionRow iconName="beer" title="Add your drinks">
+      <SectionRow iconName="beer" title={t('drinksSection:title')}>
         <Pressable onPress={handleOpenModal} style={styles.iconWrapper}>
           <Ionicons name="add-circle" size={25} color={theme.systemGreen} />
         </Pressable>
@@ -41,33 +42,33 @@ const DrinksSection: React.FC = () => {
       {drinks.length > 0 ? (
         <View>
           <Text style={[styles.drinksTitle, { color: theme.label, marginVertical: 10 }]}>
-        Your Drinks
+            {t('drinksSection:yourDrinks')}
           </Text>
           {drinks.map((drink, index) => (
-        <View
-          key={index}
-          style={[styles.drinkItem, { backgroundColor: theme.systemGray4 }]}
-        >
-          <Text style={[styles.drinkText, { color: theme.label }]}>
-            <Text style={styles.labelText}>Quantity: </Text>
-            <Text>{drink.quantity}ml</Text>
-            {'\n'}
-            <Text style={styles.labelText}>Alcohol: </Text>
-            <Text>{drink.percentage}%</Text>
-            {'\n'}
-            <Text style={styles.labelText}>Time: </Text>
-            <Text>{drink.time} min ago</Text>
-          </Text>
-          <Pressable onPress={() => handleRemoveDrink(index)}>
-            <Ionicons name="remove-circle" size={24} color={theme.systemRed} />
-          </Pressable>
-        </View>
+            <View
+              key={index}
+              style={[styles.drinkItem, { backgroundColor: theme.systemGray4 }]}
+            >
+              <Text style={[styles.drinkText, { color: theme.label }]}>
+                <Text style={styles.labelText}>{t('drinksSection:quantityLabel')}</Text>
+                <Text>{drink.quantity}ml</Text>
+                {'\n'}
+                <Text style={styles.labelText}>{t('drinksSection:alcoholLabel')}</Text>
+                <Text>{drink.percentage}%</Text>
+                {'\n'}
+                <Text style={styles.labelText}>{t('drinksSection:timeLabel')}</Text>
+                <Text>{drink.time} min ago</Text>
+              </Text>
+              <Pressable onPress={() => handleRemoveDrink(index)}>
+                <Ionicons name="remove-circle" size={24} color={theme.systemRed} />
+              </Pressable>
+            </View>
           ))}
         </View>
       ) : (
-          <Text style={[styles.drinksTitle, { color: theme.label, marginVertical: 10 }]}>
-          No drinks added yet 🍺
-          </Text>
+        <Text style={[styles.drinksTitle, { color: theme.label, marginVertical: 10 }]}>
+          {t('drinksSection:noDrinks')}
+        </Text>
       )}
     </View>
   );
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
   drinksTitle: {
     fontSize: 18,
     textAlign: 'left',
-    fontWeight: '300'
+    fontWeight: '300',
   },
   drinkItem: {
     padding: 10,
