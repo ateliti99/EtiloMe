@@ -1,0 +1,95 @@
+{
+    "index": {
+      "fillRequiredInfo": "Por favor, complete toda la información requerida para proceder con el cálculo.",
+      "validWeight": "Por favor, ingrese un peso válido en kilogramos.",
+      "validAge": "Debe tener al menos 18 años (o proporcionar una edad válida) para usar este calculador.",
+      "validGender": "Por favor, seleccione un género válido.",
+      "calculate": "Calcular",
+      "summary": "Resumen",
+      "alcoholTest": "Prueba de Alcohol"
+    },
+    "addDrinkModal": {
+      "title": "Agregar Bebida",
+      "quantityPlaceholder": "Cantidad (ml)",
+      "alcoholPlaceholder": "Alcohol %",
+      "timeAgoPlaceholder": "Hace cuánto tiempo (minutos)",
+      "presetVolumes": {
+        "40": "Shot\n40ml",
+        "150": "Vino\n150ml",
+        "330": "Cerveza Mediana\n330ml",
+        "500": "Cerveza Grande\n500ml"
+      },
+      "searchButton": "Buscar",
+      "cancelButton": "Cancelar",
+      "saveButton": "Guardar",
+      "timePresets": {
+        "30": "30 min",
+        "60": "60 min",
+        "120": "120 min"
+      }
+    },
+    "ageInput": {
+      "title": "Edad",
+      "placeholder": "+18"
+    },
+    "drinksSection": {
+      "title": "Agrega tus bebidas",
+      "yourDrinks": "Tus Bebidas",
+      "noDrinks": "No se han agregado bebidas aún 🍺",
+      "quantityLabel": "Cantidad: ",
+      "alcoholLabel": "Alcohol: ",
+      "timeLabel": "Tiempo: ",
+      "addDrinkButton": "Agregar Bebida",
+      "removeDrinkButton": "Eliminar Bebida"
+    },
+    "emptyStomachSelector": {
+      "title": "¿Estómago vacío?",
+      "yes": "Sí",
+      "no": "No"
+    },
+    "genderSelector": {
+      "title": "Género",
+      "male": "Masculino",
+      "female": "Femenino"
+    },
+    "litersModal": {
+      "title": "Editar Litros",
+      "placeholder": "Litros",
+      "cancelButton": "Cancelar",
+      "saveButton": "Guardar"
+    },
+    "resultModal": {
+      "title": "Tu Nivel de Alcohol",
+      "noResult": "Sin resultado",
+      "disclaimer": "Nota: Los valores mostrados son solo estimaciones y no deben usarse para tomar decisiones sobre conducir u otras actividades. Beba siempre con responsabilidad.",
+      "callTaxiButton": "🚖 Llamar un Taxi",
+      "closeButton": "Cerrar"
+    },
+    "searchABVModal": {
+      "title": "Buscar una Bebida",
+      "placeholder": "Escriba el nombre de la bebida...",
+      "closeButton": "Cerrar"
+    },
+    "sectionRow": {
+      "iconName": "Icono",
+      "title": "Título"
+    },
+    "sectionTitle": {
+      "title": "Título"
+    },
+    "summary": {
+      "liters": "Litros",
+      "editButton": "Editar"
+    },
+    "testInformation": {
+      "gender": "Género",
+      "age": "Edad",
+      "weight": "Peso",
+      "emptyStomach": "¿Estómago vacío?",
+      "drinksSection": "Agrega tus bebidas"
+    },
+    "weightInput": {
+      "title": "Peso",
+      "placeholder": "80 kg"
+    }
+  }

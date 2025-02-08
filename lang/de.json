@@ -1,0 +1,95 @@
+{
+    "index": {
+      "fillRequiredInfo": "Bitte füllen Sie alle erforderlichen Informationen aus, um mit der Berechnung fortzufahren.",
+      "validWeight": "Bitte geben Sie ein gültiges Gewicht in Kilogramm ein.",
+      "validAge": "Sie müssen mindestens 18 Jahre alt sein (oder ein gültiges Alter angeben), um diesen Rechner zu verwenden.",
+      "validGender": "Bitte wählen Sie ein gültiges Geschlecht aus.",
+      "calculate": "Berechnen",
+      "summary": "Zusammenfassung",
+      "alcoholTest": "Alkoholtest"
+    },
+    "addDrinkModal": {
+      "title": "Getränk hinzufügen",
+      "quantityPlaceholder": "Menge (ml)",
+      "alcoholPlaceholder": "Alkohol %",
+      "timeAgoPlaceholder": "Vor wie vielen Minuten",
+      "presetVolumes": {
+        "40": "Shot\n40ml",
+        "150": "Wein\n150ml",
+        "330": "Mittleres Bier\n330ml",
+        "500": "Großes Bier\n500ml"
+      },
+      "searchButton": "Suchen",
+      "cancelButton": "Abbrechen",
+      "saveButton": "Speichern",
+      "timePresets": {
+        "30": "30 min",
+        "60": "60 min",
+        "120": "120 min"
+      }
+    },
+    "ageInput": {
+      "title": "Alter",
+      "placeholder": "+18"
+    },
+    "drinksSection": {
+      "title": "Fügen Sie Ihre Getränke hinzu",
+      "yourDrinks": "Ihre Getränke",
+      "noDrinks": "Noch keine Getränke hinzugefügt 🍺",
+      "quantityLabel": "Menge: ",
+      "alcoholLabel": "Alkohol: ",
+      "timeLabel": "Zeit: ",
+      "addDrinkButton": "Getränk hinzufügen",
+      "removeDrinkButton": "Getränk entfernen"
+    },
+    "emptyStomachSelector": {
+      "title": "Leerer Magen?",
+      "yes": "Ja",
+      "no": "Nein"
+    },
+    "genderSelector": {
+      "title": "Geschlecht",
+      "male": "Männlich",
+      "female": "Weiblich"
+    },
+    "litersModal": {
+      "title": "Liter bearbeiten",
+      "placeholder": "Liter",
+      "cancelButton": "Abbrechen",
+      "saveButton": "Speichern"
+    },
+    "resultModal": {
+      "title": "Ihr Alkoholpegel",
+      "noResult": "Kein Ergebnis",
+      "disclaimer": "Hinweis: Die angezeigten Werte sind nur Schätzungen und sollten nicht verwendet werden, um Entscheidungen über das Fahren oder andere Aktivitäten zu treffen. Trinken Sie immer verantwortungsbewusst.",
+      "callTaxiButton": "🚖 Ein Taxi rufen",
+      "closeButton": "Schließen"
+    },
+    "searchABVModal": {
+      "title": "Ein Getränk suchen",
+      "placeholder": "Geben Sie den Namen des Getränks ein...",
+      "closeButton": "Schließen"
+    },
+    "sectionRow": {
+      "iconName": "Symbol",
+      "title": "Titel"
+    },
+    "sectionTitle": {
+      "title": "Titel"
+    },
+    "summary": {
+      "liters": "Liter",
+      "editButton": "Bearbeiten"
+    },
+    "testInformation": {
+      "gender": "Geschlecht",
+      "age": "Alter",
+      "weight": "Gewicht",
+      "emptyStomach": "Leerer Magen?",
+      "drinksSection": "Fügen Sie Ihre Getränke hinzu"
+    },
+    "weightInput": {
+      "title": "Gewicht",
+      "placeholder": "80 kg"
+    }
+  }
