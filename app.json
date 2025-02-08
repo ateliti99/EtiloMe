@@ -4,16 +4,21 @@
     "slug": "EtiloMe",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/Apple/App_store_1024_1x.png",
+    "icon": "./assets/icons/ios_dark.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": false
+      "supportsTablet": false,
+      "icon": {
+        "dark": "./assets/icons/ios_dark.png",
+        "light": "./assets/icons/ios_light.png"
+      }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/Android/ic_launcher_google_play.png",
+        "foregroundImage": "./assets/icons/adaptive-icon.png",
+        "monochromeImage": "./assets/icons/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
     },
@@ -26,8 +31,14 @@
       [
         "expo-splash-screen",
         {
+          "image": "./assets/icons/ios_light.png",
           "resizeMode": "contain",
-          "backgroundColor": "#000000"
+          "backgroundColor": "#ffffff",
+          "dark": {
+            "image": "./assets/icons/ios_dark.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#343434"
+          }
         }
       ]
     ],
