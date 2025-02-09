@@ -1,30 +1,34 @@
+import React, { useEffect } from "react";
 import { Stack } from "expo-router";
-import { useColorScheme, Platform } from "react-native";
+import { useColorScheme } from "react-native";
 import { Colors } from "../constants/Colors";
 import mobileAds from "react-native-google-mobile-ads";
-import { useEffect } from "react";
-import { requestTrackingPermissionsAsync } from "expo-tracking-transparency";
+import {
+  getTrackingPermissionsAsync,
+  PermissionStatus,
+  requestTrackingPermissionsAsync,
+} from "expo-tracking-transparency";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme() || "light";
   const theme = Colors[colorScheme];
 
   useEffect(() => {
-    (async () => {
-      try {
-        if (Platform.OS === 'ios') {
-          const { status: trackingStatus } = await requestTrackingPermissionsAsync();
-          if (trackingStatus !== 'granted') {
-            // Optionally handle the case where tracking is not permitted.
-          }
-        }
-        await mobileAds().initialize();
-      } catch (error) {
-        console.error('Error during ads initialization:', error);
+    async function initializeServices() {
+      // Get tracking permissions
+      const { status } = await getTrackingPermissionsAsync();
+      if (status === PermissionStatus.UNDETERMINED) {
+        await requestTrackingPermissionsAsync();
       }
-    })();
-  }, []);  
-  
+
+      // Initialize mobile ads
+      const adapterStatuses = await mobileAds().initialize();
+      // Optionally, handle adapterStatuses if needed
+    }
+
+    initializeServices();
+  }, []);
+
   return (
     <Stack
       screenOptions={{
