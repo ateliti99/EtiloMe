@@ -14,6 +14,7 @@ import SectionTitle from "@/components/SectionTitle";
 import TestInformation from "@/components/TestInformation";
 import ResultModal from "@/components/ResultModal";
 import LitersModal from "@/components/LitersModal";
+import InlineAd from "@/components/InlineAd";
 
 interface Drink {
   quantity: string;
@@ -164,6 +165,11 @@ export default function Index() {
       >
         <Text style={styles.calculateButtonText}>{t('index:calculate')}</Text>
       </Pressable>
+
+      {/* Small Spacer */}
+      <View style={styles.smallSpacer} />
+      
+      <InlineAd />
 
       {/* Modals */}
       <ResultModal />
