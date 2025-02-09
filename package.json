@@ -74,9 +74,5 @@
         "listUnknownPackages": false
       }
     }
-  },
-  "react-native-google-mobile-ads": {
-    "iosAppId": "ca-app-pub-3383825260934343~6967885569",
-    "androidAppId": "ca-app-pub-3383825260934343~9629669930"
   }
 }
