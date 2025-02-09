@@ -57,8 +57,7 @@
             "useFrameworks": "static"
           }
         }
-      ],
-      "react-native-google-mobile-ads"
+      ]    
     ],
     "experiments": {
       "typedRoutes": true
