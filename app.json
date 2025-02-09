@@ -19,10 +19,6 @@
         "ITSAppUsesNonExemptEncryption": false
       }
     },
-    "react-native-google-mobile-ads": {
-      "iosAppId": "ca-app-pub-3383825260934343~6967885569",
-      "androidAppId": "ca-app-pub-3383825260934343~9629669930"
-    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icons/adaptive-icon.png",
@@ -57,7 +53,7 @@
             "useFrameworks": "static"
           }
         }
-      ]    
+      ]
     ],
     "experiments": {
       "typedRoutes": true
@@ -68,6 +64,10 @@
       },
       "eas": {
         "projectId": "c240e4f6-b5a2-4a65-a7ad-41722e172ec8"
+      },
+      "reactNativeGoogleMobileAds": {
+        "iosAppId": "ca-app-pub-3383825260934343~6967885569",
+        "androidAppId": "ca-app-pub-3383825260934343~9629669930"
       }
     },
     "owner": "ateliti99"
