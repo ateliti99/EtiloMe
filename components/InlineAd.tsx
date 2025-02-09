@@ -15,7 +15,7 @@ const InlineAd = () => {
     <View style={{ height: isAdLoaded ? 'auto' : 0 }}>
       <BannerAd
         // It is extremely important to use test IDs as you can be banned/restricted by Google AdMob for inappropriately using real ad banners during testing
-        unitId={__DEV__ ? TestIds.BANNER : productionID}
+        unitId={TestIds.BANNER}
         size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
         requestOptions={{
           requestNonPersonalizedAdsOnly: true, 
