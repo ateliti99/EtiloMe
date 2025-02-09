@@ -5,8 +5,8 @@ import * as Device from 'expo-device';
 import React, { useState } from 'react';
 import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
 
-const iosAdmobBanner = "ca-app-pub-12345678910/12345678910";
-const androidAdmobBanner = "ca-app-pub-12345678910/12345678910";
+const iosAdmobBanner = "ca-app-pub-3383825260934343/3381053838";
+const androidAdmobBanner = "ca-app-pub-3383825260934343/3381053838";
 const productionID = Device.osName === 'Android' ? androidAdmobBanner : iosAdmobBanner;
 
 const InlineAd = () => {
