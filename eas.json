@@ -16,6 +16,12 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "appleId": "aurelio.teliti@gmail.com",
+        "ascAppId": "6742049433",
+        "appleTeamId": "K5LW4253TP"
+      }
+    }
   }
 }
