@@ -57,11 +57,11 @@ export default function ResultModal() {
         </Text>
 
         {/* Open Uber Button */}
-        <Pressable onPress={handleOpenUber} style={[styles.uberButton, { backgroundColor: theme.systemBackground, borderColor: theme.label }]}>
+        {/* <Pressable onPress={handleOpenUber} style={[styles.uberButton, { backgroundColor: theme.systemBackground, borderColor: theme.label }]}>
           <Text style={[styles.uberButtonText, { color: theme.label }]}>
             🚖 {t('resultModal:callTaxiButton')}
           </Text>
-        </Pressable>
+        </Pressable> */}
 
         {/* Close Button */}
         <Pressable onPress={handleClose} style={[styles.closeButton, { borderColor: theme.systemBlue }]}>
