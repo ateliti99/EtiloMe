@@ -4,9 +4,9 @@ EtiloMe is a comprehensive mobile application designed to help users estimate th
 
 Here are some screenshots of the EtiloMe app:
 
-![Screenshot 1](screenshots/screenshot1.png)
-![Screenshot 2](screenshots/screenshot2.png)
-![Screenshot 3](screenshots/screenshot3.png)
+![Screenshot 1](screenshots/1.png)
+![Screenshot 2](screenshots/2.png)
+![Screenshot 3](screenshots/3.png)
 
 ## Features
 
