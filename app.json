@@ -74,6 +74,12 @@
         "projectId": "c240e4f6-b5a2-4a65-a7ad-41722e172ec8"
       }
     },
-    "owner": "ateliti99"
+    "owner": "ateliti99",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/c240e4f6-b5a2-4a65-a7ad-41722e172ec8"
+    }
   }
 }
